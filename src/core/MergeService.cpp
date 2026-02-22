@@ -5,7 +5,7 @@ MergeService::MergeService(QObject *parent)
   : QObject(parent)
 {}
  
-MergeService::merge(const QStringList &inputs,
+void MergeService::merge(const QStringList &inputs,
                     const QString &output)
 {
   if (process) return;

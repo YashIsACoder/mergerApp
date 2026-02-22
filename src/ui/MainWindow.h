@@ -1,5 +1,8 @@
 #pragma once
 
+#include <QMainWindow>
+#include <QStringList>
+
 class QListWidget;
 class QPushButton;
 class QProgressBar;
@@ -18,7 +21,7 @@ private slots:
   void removeSelected();
   void chooseOutput();
   void merge();
-  void mergeFinished(bool accepted, const QString &msg);
+  void mergeFinished(bool done, const QString &msg);
 
 private:
   QStringList currentFiles() const;

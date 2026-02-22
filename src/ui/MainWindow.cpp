@@ -31,12 +31,12 @@ void MainWindow::setupUI()
   auto *btnRow = new QHBoxLayout;
 
   auto *addBtn = new QPushButton("Add");
-  auto *rmvBtn = new QPushButton("Remove")
+  auto *rmvBtn = new QPushButton("Remove");
   mergeBtn = new QPushButton("Merge");
 
   // buttons 
   btnRow->addWidget(addBtn);
-  btnRow->addWidget(rmvButton);
+  btnRow->addWidget(rmvBtn);
   btnRow->addStretch();
   btnRow->addWidget(mergeBtn);
 
@@ -45,7 +45,7 @@ void MainWindow::setupUI()
   // prog bar
   progress = new QProgressBar;
   progress->setVisible(false);
-  layout->addWdiget(progress);
+  layout->addWidget(progress);
 
   // status 
   status = new QLabel;
@@ -54,7 +54,7 @@ void MainWindow::setupUI()
   setCentralWidget(central);
 
   connect(addBtn, &QPushButton::clicked, this, &MainWindow::addFiles);
-  connect(rmvButton, &QPushButton::clicked, this, &MainWindow::removeSelected);
+  connect(rmvBtn, &QPushButton::clicked, this, &MainWindow::removeSelected);
   connect(mergeBtn, &QPushButton::clicked, this, &MainWindow::merge);
 }
 
@@ -99,8 +99,8 @@ void MainWindow::merge()
   if (outputPath.isEmpty()) return;
 
   progress->setRange(0,0);
-  progress->setVisible(true);
-  progress->setText("Merging..");
+  progress->setFormat("Merging..");
+  progress->setTextVisible(true);
 
   service->merge(currentFiles(), outputPath);
 }

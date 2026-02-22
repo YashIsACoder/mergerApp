@@ -11,7 +11,7 @@ class MergeService : public QObject
 
 public:
   explicit MergeService(QObject *parent = nullptr);
-  void merge(const QStringList &inputs, const QStringList &output);
+  void merge(const QStringList &inputs, const QString &output);
 
 signals:
   void finished(bool done, const QString &msg);
