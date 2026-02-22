@@ -61,7 +61,7 @@ void MainWindow::setupUI()
 void MainWindow::addFiles()
 {
   auto files = QFileDialog::getOpenFileNames(this, "Select PDFs", 
-                                             {}, "PDF Files (*.pdf)}");
+                                             {}, "PDF Files (*.pdf)");
   for (const auto &f : files) fileList->addItem(f);
 }
 
