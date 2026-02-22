@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QFileDialog>
 #include <QProgressBar>
 #include <QLabel>
 #include <QMessageBox>
@@ -59,31 +60,61 @@ void MainWindow::setupUI()
 
 void MainWindow::addFiles()
 {
-
+  auto files = QFileDialog::getOpenFileNames(this, "Select PDFs", 
+                                             {}, "PDF Files (*.pdf)}");
+  for (const auto &f : files) fileList->addItem(f);
 }
 
 void MainWindow::removeSelected()
 {
-
+  auto items = fileList->selectedItems();
+  for (auto *item : items) {
+    delete fileList->takeItem(fileList->row(item));
+  }
 }
 
-void MainWindow::currentFiles() const
+QStringList MainWindow::currentFiles() const
 {
-
+  QStringList files;
+  for (int i{}; i < fileList->count(); ++i)
+    files << fileList->item(i)->text();
+  return files;
 }
 
 void MainWindow::chooseOutput()
 {
-
+  outputPath = QFileDialog::getSaveFileName(this, "Output File", 
+                                            {}, "PDF Files (*.pdf)");
 }
 
 void MainWindow::merge()
 {
+  if (fileList->count() == 0)
+  {
+    QMessageBox::warning(this, "Error", "Add PDFs first.");
+    return;
+  }
 
+  chooseOutput();
+  if (outputPath.isEmpty()) return;
+
+  progress->setRange(0,0);
+  progress->setVisible(true);
+  progress->setText("Merging..");
+
+  service->merge(currentFiles(), outputPath);
 }
 
-void MainWindow::mergeFinished(bool accepted, const QString &msg)
+void MainWindow::mergeFinished(bool done, const QString &msg)
 {
+  progress->setVisible(false);
+  status->setText(done ? "Done" : "Failed");
+
+  QMessageBox::information(
+    this,
+    done ? "Success" : "Error", 
+    msg
+  );
 }
 
 
