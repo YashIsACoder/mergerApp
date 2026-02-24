@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
       service(new MergeService(this))
 {
   setupUI();
-  connect(service, &MergeService::finished, 
+  connect(service, &MergeService::mergeFinished, 
           this, &MainWindow::mergeFinished);
 }
 
@@ -102,7 +102,7 @@ void MainWindow::merge()
   progress->setFormat("Merging..");
   progress->setTextVisible(true);
 
-  service->merge(currentFiles(), outputPath);
+  service->startMerge(currentFiles(), outputPath);
 }
 
 void MainWindow::mergeFinished(bool done, const QString &msg)
